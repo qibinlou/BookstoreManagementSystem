@@ -22,6 +22,8 @@ class AdminPropertyAdmin(admin.ModelAdmin):
         qs = super(AdminPropertyAdmin, self).queryset(request)
         return qs if request.user.is_superuser else qs.filter(admin=request.user)
 
+
+
 #UserAdmin.list_display = ('username', 'email', 'is_active', 'is_staff', 'date_joined',)
 admin.site.register(AdminProperty, AdminPropertyAdmin)
 #admin.site.unregister(User)

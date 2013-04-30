@@ -16,8 +16,8 @@ class AdminProperty(User):
     )
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default=0)
     birthday = models.DateField(blank=True, null=True)
-    def email(self):
-        return self.admin.email
+#    def email(self):
+#        return self.admin.email
     def display_birthday(self):
         return str(self.birthday)
     display_birthday.short_description = 'birthday'

@@ -29,20 +29,20 @@ class BookInfoAdmin(admin.ModelAdmin):
 	search_fields = ('book','price','numbers')
 	# filter_horizontal = ('authors',)
 
-def make_bookorder_done(modeladmin, request, queryset):
+def make_order_done(modeladmin, request, queryset):
     for big_order in queryset:
         for book_order in BookOrder.objects.filter(order__id = big_order.id):
             book_order.state = DONE
             book_order.save()
-make_bookorder_done.short_description = "Mark selected book orders as done."
+make_order_done.short_description = "Mark selected orders as done."
 
 
-def make_bookorder_canceled(modeladmin, request, queryset):
+def make_order_canceled(modeladmin, request, queryset):
     for big_order in queryset:
         for book_order in BookOrder.objects.filter(order__id = big_order.id):
             book_order.state = CANCELED
             book_order.save()
-make_bookorder_canceled.short_description = "Mark selected book orders as canceled."
+make_order_canceled.short_description = "Mark selected orders as canceled."
 
 
 class OrderAdmin(admin.ModelAdmin):
@@ -50,14 +50,32 @@ class OrderAdmin(admin.ModelAdmin):
 	list_filter =  ('id','order_date','order_type',)
 	search_fields = ('id','order_date','order_type',)
 	inlines = [Book_OrderInline]
-	actions = [make_bookorder_done]
-	actions += [make_bookorder_canceled]
+	actions = [make_order_done]
+	actions += [make_order_canceled]
 	# filter_horizontal = ('authors',)
 
+
+def make_bookorder_done(modeladmin, request, queryset):
+    for book_order in queryset:
+         book_order.state = DONE
+         book_order.save()
+make_bookorder_done.short_description = "Mark selected book orders as done."
+
+
+def make_bookorder_canceled(modeladmin, request, queryset):
+    for book_order in queryset:
+        book_order.state = CANCELED
+        book_order.save()
+make_bookorder_canceled.short_description = "Mark selected book orders as canceled."
+
+
+
+
 class BookOrderAdmin(admin.ModelAdmin):
-	list_display = ('id', 'order','price','numbers','state',)
-	list_filter  =  ('id', 'order','price','numbers','state',)
+	list_display = ('id', 'order','price','numbers','total_price_display','state',)
+	list_filter  =  ('state',)
 	search_fields = ('id', 'order','price','numbers','state',)
+	actions = [make_bookorder_done, make_bookorder_canceled]
 	# filter_horizontal = ('authors',)
 
 

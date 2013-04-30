@@ -75,6 +75,16 @@ class BookOrder(models.Model):
         super(BookOrder, self).save(*args, **kwargs)
     def total_price(self):
         return self.price * self.numbers
+    def total_price_display(self):
+        paid = pending = decimal.Decimal(0)
+        if self.state == PROCESSING:
+            paid, pending = 0, self.total_price()
+        elif self.state == DONE:
+            paid, pending = self.total_price(), 0
+        elif self.state == CANCELED:
+            paid, pending = 0, 0
+        return '$%.2f / $%.2f' %(pending, paid)
+    total_price_display.short_description = 'pending / paid'
     def str_total_price(self):
         return '$%.2f' %self.price * self.numbers
     def __unicode__(self):
