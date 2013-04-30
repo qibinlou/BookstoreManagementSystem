@@ -39,6 +39,7 @@ class Book(models.Model):
 
     def  display_authors(self):
         return ' / '.join([a.name for a in self.authors.all() ])
+    display_authors.short_description = 'authors'
 
 PROCESSING = '0'
 DONE = '1'
@@ -77,11 +78,11 @@ class BookOrder(models.Model):
         return self.price * self.numbers
     def total_price_display(self):
         paid = pending = decimal.Decimal(0)
-        if self.status == PROCESSING:
+        if self.state == PROCESSING:
             paid, pending = 0, self.total_price()
-        elif self.status == DONE:
+        elif self.state == DONE:
             paid, pending = self.total_price(), 0
-        elif self.status == CANCELED:
+        elif self.state == CANCELED:
             paid, pending = 0, 0
         return '$%.2f / $%.2f' %(pending, paid)
     total_price_display.short_description = 'pending / paid'

@@ -32,13 +32,14 @@ class Book(models.Model):
     publication_date = models.DateField(blank=True, null=True)
     
     price = models.DecimalField(max_digits=15,decimal_places=2)
-    numbers = models.PositiveIntegerField()
+    stock = models.PositiveIntegerField()
 
     def __unicode__(self):
         return unicode(self.title) 
 
     def  display_authors(self):
         return ' / '.join([a.name for a in self.authors.all() ])
+    display_authors.short_description = 'authors'
 
 PROCESSING = '0'
 DONE = '1'

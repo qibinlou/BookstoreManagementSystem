@@ -15,7 +15,7 @@ class AuthorAdmin(admin.ModelAdmin):
 
 class BookAdmin(admin.ModelAdmin):
 	list_display = ('book_id','isbn','title','display_authors','publisher','publication_date','price','numbers')
-	list_filter =  ('book_id','isbn','title','publisher','publication_date',)
+	list_filter =  ('publisher','publication_date',)
 	search_fields = ('book_id','isbn','title','publisher')
 	# filter_horizontal = ('authors',)
 		
@@ -72,7 +72,7 @@ make_bookorder_canceled.short_description = "Mark selected book orders as cancel
 
 
 class BookOrderAdmin(admin.ModelAdmin):
-	list_display = ('id', 'order','price','numbers','total_price','state',)
+	list_display = ('id', 'order','price','numbers','total_price_display','state',)
 	list_filter  =  ('state',)
 	search_fields = ('id', 'order','price','numbers','state',)
 	actions = [make_bookorder_done, make_bookorder_canceled]

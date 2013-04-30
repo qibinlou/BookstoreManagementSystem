@@ -14,8 +14,8 @@ class AuthorAdmin(admin.ModelAdmin):
 	# filter_horizontal = ('authors',)
 
 class BookAdmin(admin.ModelAdmin):
-	list_display = ('book_id','isbn','title','display_authors','publisher','publication_date','price','numbers')
-	list_filter =  ('book_id','isbn','title','publisher','publication_date',)
+	list_display = ('book_id','isbn','title','display_authors','publisher','publication_date','price','stock')
+	list_filter =  ('publisher','publication_date',)
 	search_fields = ('book_id','isbn','title','publisher')
 	# filter_horizontal = ('authors',)
 		
@@ -24,9 +24,9 @@ class Book_OrderInline(admin.TabularInline):
     extra = 0
 	
 class BookInfoAdmin(admin.ModelAdmin):
-	list_display = ('book','price','numbers')
-	list_filter =  ('book','price','numbers')
-	search_fields = ('book','price','numbers')
+	list_display = ('book','price','stock')
+	list_filter =  ('book','price','stock')
+	search_fields = ('book','price','stock')
 	# filter_horizontal = ('authors',)
 
 def make_order_done(modeladmin, request, queryset):
