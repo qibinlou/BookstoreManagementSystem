@@ -18,13 +18,16 @@ class Publisher(models.Model):
 class Author(models.Model):
     name = models.CharField(max_length=50)
     email = models.EmailField(blank=True)
-    
+    city = models.CharField(max_length=60,blank=True)
+    state_province = models.CharField(max_length=30,blank=True)
+    country = models.CharField(max_length=50,blank=True)
+    website = models.URLField(blank=True)
     def __unicode__(self):
         return unicode(self.name)
 
 
 class Book(models.Model):
-    book_id = models.AutoField(primary_key=True)
+#    book_id = models.AutoField(primary_key=True)
     isbn = models.CharField(max_length=20)
     title = models.CharField(max_length=100)
     authors = models.ManyToManyField(Author)
