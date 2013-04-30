@@ -1,0 +1,21 @@
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
+from models import AdminProperty
+
+class AdminPropertyAdmin(admin.ModelAdmin):
+    list_display = ('admin', 'real_name', 'gender', 'age', 'birthday')
+    search_fields = ('admin', 'real_name', 'gender', 'age', 'birthday')
+
+    def has_change_permission(self, request, obj=None):
+        return True
+
+    def queryset(self, request):
+        qs = super(AdminPropertyAdmin, self).queryset(request)
+        return qs if request.user.is_superuser else qs.filter(admin=request.user)
+
+UserAdmin.list_display += ('__gender', 'age',)
+
+admin.site.register(AdminProperty, AdminPropertyAdmin)
+admin.site.unregister(User)
+admin.site.register(User,UserAdmin)

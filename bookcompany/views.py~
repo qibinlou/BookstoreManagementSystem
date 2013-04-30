@@ -1,0 +1,8 @@
+from django.http import HttpResponse
+from django.template import Context, Template
+from django.template.loader import get_template
+
+def homepage(request):
+    head = 'Book Company Management Website'
+    title = 'HomePage'
+    return render_to_response('index.html', locals())
