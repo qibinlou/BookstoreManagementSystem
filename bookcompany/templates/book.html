@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block header%}
+	{{block.super}}
+	<a href="#myModal" role="button" class="btn span2 btn-danger" data-toggle="modal">Add Book</a>
+	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Add Book</h3>
+  </div>
+  <div class="modal-body">
+		<form class="form-horizontal" id="newbook" method="get">
+		  <div class="control-group">
+		  	<label class="control-label" for="isbn">ISBN</label>
+		  	<div class="controls">
+		  	<input type="text" class="input-small" name="isbn" placeholder="ISBN" 	required>
+		  	</div>
+		  </div>
+
+		  <div class="control-group">
+		  	<label class="control-label" for="title">Title</label>
+		  	<div class="controls">
+		  	<input type="text" class="input-small" name="title" placeholder="Title" 	required>
+		  	</div>
+		  </div>
+
+		  <div class="control-group">
+		  	<label class="control-label" for="authors">Authors</label>
+		  	<div class="controls">
+		  	<input type="text" class="input-small" name="authors" placeholder="authors" 	required>
+		  	</div>
+		  </div>
+
+		  <div class="control-group">
+		  	<label class="control-label" for="price">Price</label>
+		  	<div class="controls">
+		  	<input type="text" min="0" class="input-small" name="price" placeholder="Price" 	required>
+		  	</div>
+		  </div>
+
+		  <div class="control-group">
+		  	<label class="control-label" for="numbers">Numbers</label>
+		  	<div class="controls">
+		  	<input type="number" min="0" class="input-small" name="numbers" placeholder="Numbers" 	required>
+		  	</div>
+		  </div>
+
+		  <div class="control-group">
+		  	<label class="control-label" for="publisher">Publisher</label>
+		  	<div class="controls">
+		  	<input type="text" class="input-small" name="publisher" placeholder="Publisher	" required>
+		  </div>
+		 </div>
+
+		  <div class="control-group">
+		  	<label class="control-label" for="pubdate">PubDate</label>
+		  	<div class="controls">
+		  	<input type="date" class="input-small" name="pubdate" placeholder="PubDate" 	required>
+		  	</div>
+		  </div>
+
+		  <button type="submit" class="btn btn-primary pull-right">Submit</button>
+
+		</form>
+
+  </div>
+ <!--  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancle</button>
+    <button class="btn btn-primary" type="submit" id="submitbook">Submit</button>
+  </div> -->
+</div>
+{% endblock%}
+
+{% block content%}
+<table border="1" class="table table-bordered table-hover" id="booklist" style="border:1px solid black;">
+	<thead>
+		<tr class="info">
+			<th data-sort="int">ID</th>
+		<!-- 	<th>Buy</th>
+			<th>Number</th> -->
+			<th data-sort="string">ISBN</th>
+			<th data-sort="string">Title</th>
+			<th data-sort="string">Authors</th>
+			<th data-sort="float">Price</th>
+			<th data-sort="int">Stock</th>
+			<th data-sort="int">Sold</th>
+			<th data-sort="string">Publisher</th>
+			<th data-sort="date">Publication_date</th>
+			
+		</tr>
+	</thead>
+		
+		{% for book in books %}
+		<tr  class="{% if book.numbers <= 5 %}error
+					{% else %}
+						{% if book.numbers <= 20 %}info
+						{% else %}warning
+						{% endif %}
+					{% endif%}">
+			<td><a href="#">{{book.id}}</a></td>
+			<td>{{book.isbn}}</td>
+			<td>{{book.title}}</td>
+			<td>{{book.authors}}</td>
+			<td>{{book.price}}</td>
+			<td class="total_numbers">{{book.numbers}}</td>
+			<td >{{book.sold}}</td>
+			<td>{{book.publisher}}</td>
+			<td>{{book.date}}</td>
+		</tr>
+
+		{% endfor%}
+</table>
+
+{% endblock%}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{%block header%}
+{% if order_id %}
+	{{block.super}}
+	<a href="/home/bookorder/?order={{order_id}}" class="span2 btn btn-primary" id="orderid">Order ID: {{order_id}}</a>
+	<a href="#" class="span2 btn btn-info" id="updateorder" value="{{order_id}}" >Update Order</a>
+	<a href="/home/bookorder/add/?order={{order_id}}" class="span2 btn btn-danger" id="addbook" value="{{order_id}}" >Add Book</a>
+	<a href="#" class="span2 btn btn-success" id="submitorder" value="{{order_id}}">Submit Order</a>
+{% endif %}
+{%endblock%}
+
+{% block content%}
+<table border="1" class="table table-bordered table-hover" id="booklist" style="border:1px solid black;">
+	<thead>
+		<tr class="info">
+			<th data-sort="int">BookID</th>
+			<th>Buy</th>
+			<th>Number</th>
+			<th data-sort="string">Title</th>
+			<th data-sort="float">Price</th>
+			<th data-sort="int">Stock</th>
+			<th data-sort="string">State</th>
+			
+		</tr>
+	</thead>
+		
+		{% for book in books %}
+		<tr  class="{% ifequal book.state 'processing' %}info
+					{% else %}
+						{% ifequal book.state 'done'%}success
+						{% else %}error
+						{% endifequal %}
+					{% endifequal%}">
+			<td><a href="#">{{book.id}}</a></td>
+			<td><input type="checkbox" {% ifequal book.state 'cancled'%}{% else %}checked {% endifequal%}>
+			</td>
+			<td>
+				<div class="input-prepend input-append">
+  					<button class="btn btn-success minus" type="button">-</button>
+				  	<input style="width:20px;" id="appendedPrependedInput" type="text" value={{book.number}} max={{book.numbers}} min=0 required readonly>
+				  	<button class=" btn btn-info  plus" type="button">+</button>
+                 </div>
+			</td>
+			<td>{{book.title}}</td>
+			<td>{{book.price}}</td>
+			<td class="total_numbers">{{book.numbers}}</td>
+			<td>{{book.state}}</td>
+		</tr>
+
+		{% endfor%}
+</table>
+
+{% endblock%}

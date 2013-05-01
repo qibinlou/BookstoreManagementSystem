@@ -1,0 +1,92 @@
+<html>
+<head>
+	<title>{{title}}</title>
+
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+	<script type="text/javascript" src="/js/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="/js/bootstrap.js"></script>
+	<script type="text/javascript"  src="/js/home.js"></script>
+	<style type="text/css">
+	body{
+		margin: 0;
+		padding: 0;
+		background-color: #e3e3e3;
+	}
+	</style>
+
+
+</head>
+<body>
+	<header id="header">
+
+		
+		
+		<form class="form-search form-inline" action="/home/" method="get" >
+
+		{% if order %}
+		  	<!-- <button type="submit" class="btn btn-info" id="orderid" name="order" value={{order}}>Order ID <b>:</b>  {{order}}</button> -->
+		  	<button type="button" name="updateorder" value={{order}} class="btn btn-success" id="updateorder">Update Order</button>
+		{% endif%}
+		<button type="submit" name="allorders" value="True" class="btn btn-danger" id="allorders">All Orders</button>
+		<a href="/home/order/?order={{order}}" class="btn btn-info">Order ID:{{order}}</a>
+		<a href="/home/" class="btn btn-primary">New Order</a>
+		<!-- <button type="submit" name="neworder" value="True" class="btn btn-primary" id="neworder">New Order</button>
+		 -->
+		
+
+		  <div class="input-append">
+		    <input type="text" class="span3 search-query" name="keyword" autofocus>
+		    <button type="submit" class="btn btn-mini">Search</button>
+		  </div>
+
+		  
+		</form>
+	</header>
+	
+	{% block booklist %}
+		<table border="1" class="table table-bordered table-hover" id="booklist">
+		<tr class="info">
+			<th>id</th>
+			<th>Buy</th>
+			<th>Number</th>
+			<th>isbn</th>
+			<th>title</th>
+			<th>authors</th>
+			<th>price</th>
+			<th>numbers</th>
+			<th>publisher</th>
+			<th>publication_date</th>
+		</tr>
+		
+		{% for book in books %}
+		<tr class="info">
+			<td>{{book.id}}</td>
+			<td><input type="checkbox" {%if book.checked%}checked{% endif%}></td>
+			<td>
+				<div class="input-prepend input-append">
+  					<button class="add-on btn minus" type="button">-</button>
+				  	<input class="span1" id="appendedPrependedInput" type="text" value={{book.number}} max={{book.numbers}} min=0 required readonly>
+				  	<button class="add-on btn plus" type="button">+</button>
+                 </div>
+			</td>
+			
+			<td>{{book.isbn}}</td>
+			<td>{{book.title}}</td>
+			<td>{{book.authors}}</td>
+			<td>{{book.price}}</td>
+			<td class="total_numbers">{{book.numbers}}</td>
+			<td>{{book.publisher}}</td>
+			<td>{{book.date}}</td>
+			<!-- <td>book["id"]</td> -->
+		</tr>
+
+		{% endfor%}
+		</table>
+
+
+	{% endblock %}
+
+	<!-- <div>{{booklist}}</div> -->
+</body>
+
+</html>

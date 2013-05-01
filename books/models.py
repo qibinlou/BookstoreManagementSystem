@@ -39,7 +39,9 @@ class Book(models.Model):
 
     def __unicode__(self):
         return unicode(self.title) 
-
+    def display_publication_date(self):
+        return str(self.publication_date)
+    display_publication_date.short_description = "publication date"
     def  display_authors(self):
         return ' / '.join([a.name for a in self.authors.all() ])
     display_authors.short_description = 'authors'
@@ -64,6 +66,9 @@ class Order(models.Model):
     total_price.short_description = 'pending / paid'
     def __unicode__(self):
         return unicode(self.id)
+    def display_order_date(self):
+        return str(self.order_date).split('+')[0]
+    display_order_date.short_description = "order date"
 
 
 class BookOrder(models.Model):

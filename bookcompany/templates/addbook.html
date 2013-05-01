@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block header%}
+{% if order_id %}
+	{{block.super}}
+	<a href="/home/bookorder/?order={{order_id}}" class="span2 btn btn-info" id="orderid">Order ID: {{order_id}}</a>
+	<!-- <a href="#" class="span2 btn btn-primary" id="updateorder" value="{{order_id}}" >Update Order</a>
+ -->
+
+	<form class="form-search" method="get" action="/home/bookorder/add/">
+  		<div class="input-append span2">
+  			<input type="text" name="order" style="visibility:hidden;positon:absolute; display:none" name="order" value="{{order_id}}">
+	    	<input type="text" class="span2 search-query" autofocus name="keyword">
+	    	<button type="submit" class="btn">Search</button>
+  		</div>
+	</form>
+{% endif %}
+{% endblock%}
+
+{% block content%}
+
+<table border="1" class="table table-bordered table-hover" id="booklist" style="border:1px solid black;">
+	<thead>
+		<tr class="info">
+			<th data-sort="int">ID</th>
+			<th>Buy</th>
+			<!-- <th>Number</th> -->
+			<th data-sort="string">ISBN</th>
+			<th data-sort="string">Title</th>
+			<th data-sort="string">Authors</th>
+			<th data-sort="float">Price</th>
+			<th data-sort="int">Stock</th>
+			<th data-sort="string">publisher</th>
+			<th data-sort="date">publication_date</th>
+			
+		</tr>
+	</thead>
+		
+		{% for book in books %}
+		<tr  class="{% if book.number > 0 %}success
+					{% else %}info
+					{% endif%}">
+			<td><a href="#">{{book.id}}</a></td>
+			<td><input type="checkbox" {% ifequal book.checked True%}checked {% endifequal%} class="addbook">
+			</td>
+			<!-- <td>
+				<div class="input-prepend input-append">
+  					<button class="btn btn-success minus" type="button">-</button>
+				  	<input style="width:20px;" id="appendedPrependedInput" type="text" value={{book.number}} max={{book.numbers}} min=0 required readonly>
+				  	<button class=" btn btn-info  plus" type="button">+</button>
+                 </div>
+			</td> -->
+			<td>{{book.isbn}}</td>
+			<td>{{book.title}}</td>
+			<td>{{book.authors}}</td>
+			<td>{{book.price}}</td>
+			<td class="total_numbers">{{book.numbers}}</td>
+			<td>{{book.publisher}}</td>
+			<td>{{book.date}}</td>
+		</tr>
+
+		{% endfor%}
+</table>
+
+{% endblock%}

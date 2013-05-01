@@ -11,8 +11,17 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^$', homepage),
-    (r'^images/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates/images/')}),
-    (r'^css/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates/css/')}),
+    (r'^home/$',home),
+    (r'^home/order/$',order),
+    (r'^home/book/$',book),
+    (r'^home/bookorder/$',bookorder),
+    (r'^home/bookorder/update/$',updateorder),
+    (r'^home/bookorder/submit/$',submitorder),
+    (r'^home/bookorder/add/$',addbook),
+        # (r'^images/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates/images/')}),
+        # (r'^css/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates/css/')}),
+        # (r'^js/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates/js/')}),
+
     # Examples:
     # url(r'^$', 'bookcompany.views.home', name='home'),
     # url(r'^bookcompany/', include('bookcompany.foo.urls')),
