@@ -4,7 +4,7 @@
 
 <div class="alert alert-error" id="alert_error" style="display:none;">
   <button type="button" class="close" data-dismiss="alert">&times;</button>
-  <strong >Error!</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The order was done!
+  <strong >Error!</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The order had been done!
 </div>
 
 <div class="alert alert-success" id="alert_success" style="display:none;">
@@ -17,7 +17,7 @@
 	<thead>
 		<tr class="info">
 			<th data-sort="int">BookID</th>
-			<th>Buy</th>
+			<th>{% ifequal order_type '0' %}进货{%else%}出售{%endifequal%}</th>
 			<th>Number</th>
 			<th data-sort="string">Title</th>
 			<th data-sort="float">Price</th>
@@ -54,7 +54,7 @@
 </table>
 {% block toolbar%}
 <div class="toolbar">
-	<a href="/home/bookorder/add/?order={{order_id}}" class="s3d twitter forrst middle" id="addbook" value="{{order_id}}" >Add Book</a>
+	<a href="#" class="s3d twitter forrst middle" id="addbooktoorder" value="{{order_id}}" >Add Book</a>
 
 	<a href="#" class="s3d twitter middle" id="updateorder" value="{{order_id}}" >Update Order</a>
 	<a href="#" class="s3d twitter designmoo middle" id="submitorder" value="{{order_id}}">Submit Order</a>

@@ -21,6 +21,13 @@
 
 {% block content%}
 
+<div class="toolbar">
+	<form>
+		<input type="date" name="start_time" />
+		<input type="date" name="end_time"	/>
+		<button type="submit" class="btn btn-primary" style="margin-left:25px;">Submit</button>
+	</form>
+</div>
 <table border="1" class="table table-bordered table-hover" id="booklist" style="border:1px solid black;">
 	<thead>
 		<tr class="info">
@@ -46,9 +53,15 @@
 </table>
 
 {% block toolbar%}
+
 <div class="toolbar">
-	<a href="#" class="ordertype s3d twitter middle" >In</a></li>
-	<a href="#" class="ordertype s3d flickr middle">Out</a></li>
+	<a href="#" class="s3d facebook middle" >支出：<strong>{{total_outgo}}<strong/></a></li>
+	<a href="#" class="s3d designmoo middle">收入：<strong>{{total_income}}<strong/></a></li>
+</div>
+
+<div class="toolbar">
+	<a href="#" class="ordertype s3d twitter middle" value='In'>进货</a></li>
+	<a href="#" class="ordertype s3d flickr middle" value='Out'>出售</a></li>
 </div>
 {% endblock%}
 

@@ -71,14 +71,22 @@
             color: red;
             text-decoration: underline;
         }
+        header h1 a{
+            font-size: 50px;
+        }
+        header h1 a:hover{
+            font-size: 70px;
+            -webkit-tranzform:scale(1.1);
+        }
+
     </style>
 
 
 </head>
 <body>
     <header id="header">
-        <h1><a href="/">HELLO WORLD</a></h1>
-        <p id="tagline"><strong>Database Lab</strong></p>
+        <h1><a href="/">书城管理系统</a></h1>
+       <!--  <p id="tagline"><strong>Database Lab</strong></p> -->
 
     </header>
 
@@ -109,8 +117,8 @@
                         <li><a href="/home/book/">Book</a></li>
                         <li><a href="/home/order/" id="orders" value="{{order_id}}">Order</a></li>
                         <!-- <li><a href="/home/bookorder">Book Order</a></li> -->
-                        <li><a href="/home/account">Account</a></li>
                         <li><a href="#">About</a></li>
+                        <li><a href="/admin/">Admin</a></li>
                     </ul>
                 </nav>
                 <!-- <div class="clear"></div> -->

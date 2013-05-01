@@ -126,10 +126,11 @@ var Home = function(){
 	
 
 	$(".ordertype").click(function(){
+
 		$.ajax({
 			type:"GET",
 			url:"/home/order/",
-			data:{"type":$(this).text()},
+			data:{"type":$(this).attr("value")},
 			success:function(msg){
 				console.log(msg);
 				window.location.reload();
@@ -149,6 +150,21 @@ var Home = function(){
 			}
 		})
 
+	})
+
+	$("#addbooktoorder").click(function(){
+		var len = $("#booklist tr").size() - 1;
+		for(var i = 1; i <= len; ++i )
+		{
+			if( $("#booklist tr").eq(i).find("td").eq(6).text() == 'done' )
+			{
+				$("#alert_error").slideDown();
+				setTimeout(function(){$("#alert_error").fadeOut(5000);},2000);
+				return;
+			}
+
+		}
+		window.location.href="/home/bookorder/add/?order="+$(this).attr("value");
 	})
 
 }();

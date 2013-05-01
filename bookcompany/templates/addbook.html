@@ -7,23 +7,25 @@
 	<!-- <a href="#" class="span2 btn btn-primary" id="updateorder" value="{{order_id}}" >Update Order</a>
  -->
 
-	<form class="form-search" method="get" action="/home/bookorder/add/">
-  		<div class="input-append span2">
-  			<input type="text" name="order" style="visibility:hidden;positon:absolute; display:none" name="order" value="{{order_id}}">
-	    	<input type="text" class="span2 search-query" autofocus name="keyword">
-	    	<button type="submit" class="btn">Search</button>
-  		</div>
-	</form>
+	
 {% endif %}
 {% endblock%}
 
 {% block content%}
 
+<form class="form-search" method="get" action="/home/bookorder/add/" style="display:inline-block;margin:0 50%; text-align:center;">
+  		<div class="input-append span2">
+  			<input type="text" name="order" style="visibility:hidden;positon:absolute; display:none" name="order" value="{{order_id}}">
+	    	<input type="text" class="span2 search-query" autofocus name="keyword">
+	    	<button type="submit" class="btn">Search</button>
+  		</div>
+</form>
+
 <table border="1" class="table table-bordered table-hover" id="booklist" style="border:1px solid black;">
 	<thead>
 		<tr class="info">
 			<th data-sort="int">ID</th>
-			<th>Buy</th>
+			<th>{% ifequal order_type '0' %}进货{%else%}出售{%endifequal%}</th>
 			<!-- <th>Number</th> -->
 			<th data-sort="string">ISBN</th>
 			<th data-sort="string">Title</th>

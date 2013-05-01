@@ -18,6 +18,8 @@ urlpatterns = patterns('',
     (r'^home/bookorder/update/$',updateorder),
     (r'^home/bookorder/submit/$',submitorder),
     (r'^home/bookorder/add/$',addbook),
+    (r'^home/account/$',account),
+    
         # (r'^images/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates/images/')}),
         # (r'^css/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates/css/')}),
         # (r'^js/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates/js/')}),

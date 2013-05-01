@@ -73,6 +73,12 @@ class Order(models.Model):
         return str(self.order_date)[0:19]
         # print str(self.order_date).split('+')[0]
         # return str(self.order_date).split('+')[0]
+    def turnover(self):
+       money = decimal.Decimal(0)
+       for item in BookOrder.objects.filter(order__id = self.id):
+           if item.state == DONE:
+               money += item.total_price()
+       return money
     display_order_date.short_description = "order date"
 
 
