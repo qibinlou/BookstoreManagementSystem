@@ -46,6 +46,9 @@ class Book(models.Model):
         return ' / '.join([a.name for a in self.authors.all() ])
     display_authors.short_description = 'authors'
 
+    def display_price(self):
+        return '%.2f'%(self.price)
+
 PROCESSING = '0'
 DONE = '1'
 CANCELED = '2'
@@ -64,16 +67,12 @@ class Order(models.Model):
                 paid += item.total_price()
         return '$%.2f / $%.2f' %(pending, paid)
     total_price.short_description = 'pending / paid'
-    def turnover(self):
-        money = decimal.Decimal(0)
-        for item in BookOrder.objects.filter(order__id = self.id):
-            if item.state == DONE:
-                money += item.total_price()
-        return money
     def __unicode__(self):
         return unicode(self.id)
     def display_order_date(self):
-        return str(self.order_date).split('+')[0]
+        return str(self.order_date)[0:19]
+        # print str(self.order_date).split('+')[0]
+        # return str(self.order_date).split('+')[0]
     display_order_date.short_description = "order date"
 
 
@@ -102,6 +101,9 @@ class BookOrder(models.Model):
     total_price_display.short_description = 'pending / paid'
     def str_total_price(self):
         return '$%.2f' %self.price * self.numbers
+    
+    def display_price(self):
+        return '%.2f'%(self.price)
     def __unicode__(self):
         return unicode(self.order)
 

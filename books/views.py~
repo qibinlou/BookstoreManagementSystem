@@ -1,53 +1,29 @@
-from django.template import loader, Context
-from books.models import *
-import decimal
- 
-def view_account(request):
-    t = loader.get_template('account.html')
-    start_time = request.GET.get('start_time')
-    end_time = request.GET.get('end_time')
-    total_income = total_outgo = decimal.Decimal(0)
-    for order in Order.objects.filter(order_date__gte=start_time).filter(order_date__lte=end_time):
-        if order.type == BUY:
-            total_outgo += order.turnover()
-        elif order.type == SELL:
-            total_income += order.turnover()
-    c = Context({
-        'total_outgo' : total_outgo,
-        'total_income' : total_income
-    })
-    return t.render(c)
+from django.db import models
 
+class Publisher(models.Model):
+    name = models.CharField(max_length=30)
+    address = models.CharField(max_length=50)
+    city = models.CharField(max_length=60)
+    state_province = models.CharField(max_length=30)
+    country = models.CharField(max_length=50)
+    website = models.URLField()
 
+    def __unicode__(self):
+        return self.name
 
-# from django.db import models
-
-# class Publisher(models.Model):
-#     name = models.CharField(max_length=30)
-#     address = models.CharField(max_length=50)
-#     city = models.CharField(max_length=60)
-#     state_province = models.CharField(max_length=30)
-#     country = models.CharField(max_length=50)
-#     website = models.URLField()
-
-#     def __unicode__(self):
-#         return self.name
-
-# class Author(models.Model):
-#     name = models.CharField(max_length=0)
-#     email = models.EmailField(blank=True)
+class Author(models.Model):
+    name = models.CharField(max_length=0)
+    email = models.EmailField(blank=True)
     
-#     def __unicode__(self):
-#         return u'%s %s' %(self.first_name, self.last_name)
+    def __unicode__(self):
+        return u'%s %s' %(self.first_name, self.last_name)
 
-# class Book(models.Model):
-#     title = models.CharField(max_length=100)
-#     authors = models.ManyToManyField(Author)
-#     publisher = models.ForeignKey(Publisher)
-#     publication_date = models.DateField(blank=True, null=True)
-    
-#     def __unicode__(self):
-#         return self.title
-        
-#     def AuthorsDisplay(self):
-#         return ', '.join([a.name for a in self.authors.all()])
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    authors = models.ManyToManyField(Author)
+    publisher = models.ForeignKey(Publisher)
+    publication_date = models.DateField(blank=True, null=True)
+    def __unicode__(self):
+        return self.title
+    def AuthorsDisplay(self):
+        return ', '.join([a.name for a in self.authors.all()])

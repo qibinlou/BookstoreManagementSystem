@@ -7,19 +7,17 @@
 
 
     <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
-    <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+
     <link rel="stylesheet" href="/static/css/elegant-press.css" type="text/css" />
-
+    <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
    
-    <script type="text/javascript" src="/static/js/jquery-1.9.1.js"></script>
+
+    <script type="text/javascript" src="/static/js/jquery-1.9.1.js"></script>	
     <script type="text/javascript" src="/static/js/stupidtable.min.js"></script>
-   
-    <script type="text/javascript" src="/static/js/bootstrap.js"></script>
-	<script src="/static/js/elegant-press.js" type="text/javascript"></script>
-
-
 
     <script type="text/javascript" src="/static/js/home.js"></script>
+     <script type="text/javascript" src="/static/js/bootstrap.js"></script>
+<!--    <script src="/static/js/elegant-press.js" type="text/javascript"></script> -->
     <style type="text/css">
         body {
         }
@@ -44,14 +42,43 @@
         a:hover{
         	text-decoration: none;
         }
+        input[type='text']{ 
+        	border: 1px solid silver;
+        	background-color: #eee;
+            height: 16px;
+        }
+        .nav li a:hover{
+        	background-color: silver;
+        }
+        .middle{
+            max-width: 150px;
+            min-width: 50px;
+            text-align: center;
+            vertical-align: center;
+            display: inline-block;
+        }
+        .toolbar{
+            display: block;
+            text-align: center;
+            margin: 0 auto;
+        }
+        .table th,.table td{
+            padding: 5px 10px;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .table td a:hover{
+            color: red;
+            text-decoration: underline;
+        }
     </style>
 
 
 </head>
 <body>
     <header id="header">
-        <h1><a href="/">Bookstore</a></h1>
-        <p id="tagline"><strong>Management System</strong></p>
+        <h1><a href="/">HELLO WORLD</a></h1>
+        <p id="tagline"><strong>Database Lab</strong></p>
 
     </header>
 
@@ -59,7 +86,7 @@
         <div class="main-container">
             <div id="sub-headline">
                 <div class="tagline_left">
-                    <p id="tagline2">Tel: 18677828567 | Mail: <a href="mailto:normanyahq@gmail.com">psdn@qq.com</a></p>
+                    <p id="tagline2">Tel: 123 333 4444 | Mail: <a href="mailto:email@website.com">email@website.com</a></p>
                 </div>
                 <div class="tagline_right">
                     <form action="#" method="post">
@@ -79,18 +106,9 @@
                 <nav>
                     <ul class="nav">
                         <li><a href="/">Homepage</a></li>
-                        <li class="active"><a href="/home/book/">Book</a></li>
-                        <li><a href="/home/order/" id="orders" value="{{order_id}}">Order</a>
-                            <ul>
-                                <li><a href="#">Sidebar</a>
-                                    <ul>
-                                        <li><a href="right_sidebar.html">Right Sidebar</a>
-                                        </li>
-                                    </ul>
-                                    <li><a href="full_width.html">Full Width</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="/home/bookorder">Book Order</a></li>
+                        <li><a href="/home/book/">Book</a></li>
+                        <li><a href="/home/order/" id="orders" value="{{order_id}}">Order</a></li>
+                        <!-- <li><a href="/home/bookorder">Book Order</a></li> -->
                         <li><a href="/home/account">Account</a></li>
                         <li><a href="#">About</a></li>
                     </ul>
@@ -111,12 +129,10 @@
 					</div> -->
                     <br />
                     <br />
-                    <!-- THis is a white box  -->
-                    <!--     <div class="box">
-			    </div>
-			 -->
-                    {% block content %}
-			{% endblock%}
+                    {% block content %}        
+                        {% block toolbar%}
+                        {% endblock%}
+					{% endblock%}
                 </div>
             </div>
         </div>
@@ -177,4 +193,5 @@
     </div>
 </body>
 
+ 
 </html>

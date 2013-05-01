@@ -4,8 +4,7 @@ from  books.models import *
 from django.db.models import Q
 import datetime
 import json
-from django.template import loader, Context
-import decimal
+
 
 def homepage(request):
     head = 'Book Company Management Website'
@@ -101,7 +100,7 @@ def  bookorder(request):
 		book["id"] = item.book_item.id
 		book["number"] = item.numbers
 		book["title"] = item.book_item.title
-		book["price"] = item.price
+		book["price"] = item.display_price()
 		book["state"] = state_choices[item.state]
 		book["numbers"] = Book.objects.get(id=item.book_item.id).stock
 		books.append(book)
@@ -258,7 +257,7 @@ def book(request):
 		item["id"] = book.id
 		item["isbn"] = book.isbn
 		item["title"] = book.title
-		item["price"] = book.price
+		item["price"] = book.display_price()
 		item["numbers"] = book.stock
 		item["authors"] = book.display_authors()
 		item["publisher"] = book.publisher.name
@@ -269,22 +268,3 @@ def book(request):
 		books.append(item)
 
 	return render_to_response("book.html",locals())
-	
-	
-	
-
-def account(request):
-    t = loader.get_template('account.html')
-    start_time = request.GET.get('start_time')
-#    start_time = datetime.datetime(2006, 11, 21, 16, 30)
-    end_time = request.GET.get('end_time')
-    total_income = total_outgo = decimal.Decimal(0)
-#    end_time = datetime.datetime.now()
-    print Order.objects.filter(order_date__gte=start_time, order_date__lte=end_time).count()
-    for order in Order.objects.filter(order_date__gte=start_time, order_date__lte=end_time):
-        if order.order_type == BUY:
-            total_outgo += order.turnover()
-        elif order.order_type == SELL:
-            total_income += order.turnover()
-    return render_to_response('account.html', locals())
-

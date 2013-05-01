@@ -3,7 +3,7 @@
 {% block header%}
 {% if order_id %}
 	{{block.super}}
-	<a href="/home/bookorder/?order={{order_id}}" class="span2 btn btn-info" id="orderid">Order ID: {{order_id}}</a>
+	
 	<!-- <a href="#" class="span2 btn btn-primary" id="updateorder" value="{{order_id}}" >Update Order</a>
  -->
 
@@ -61,5 +61,11 @@
 
 		{% endfor%}
 </table>
+
+{% block toolbar%}
+<div class="toolbar">
+	<a href="/home/bookorder/?order={{order_id}}" class="s3d twitter forrst middle" id="orderid">Order ID: {{order_id}}</a>
+</div>
+{% endblock%}
 
 {% endblock%}

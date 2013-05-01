@@ -1,9 +1,12 @@
 
+
 $(document).ready(function(){
+
+$("#booklist").stupidtable();
 
 var Home = function(){
 
-	$("#booklist").stupidtable();
+	
 
 	$(".plus").click(function(){
 		// alert($(this).parent().find("input").attr("value") );
@@ -34,6 +37,16 @@ var Home = function(){
 		var len = $("#booklist tr").size() - 1;
 		for(var i = 1; i <= len; ++i )
 		{
+			if( $("#booklist tr").eq(i).find("td").eq(6).text() == 'done' )
+			{
+				$("#alert_error").slideDown();
+				setTimeout(function(){$("#alert_error").fadeOut(5000);},2000);
+				return;
+			}
+
+		}
+		for(var i = 1; i <= len; ++i )
+		{
 			// if( document.querySelectorAll("#booklist tr")[i].querySelectorAll("td")[1].querySelector("input").checked )
 			
 			var book = {};
@@ -53,7 +66,8 @@ var Home = function(){
 			data:{"order":$("#updateorder").attr("value"),"bookorder":JSON.stringify(bookorder)},
 			success:function(msg){
 				console.log(msg);
-				window.location.reload();
+				$("#alert_success").show();
+				setTimeout(function(){window.location.reload();},1000);
 			}
 		})
 		
@@ -63,6 +77,16 @@ var Home = function(){
 	$("#submitorder").click(function(){
 		var bookorder = [];
 		var len = $("#booklist tr").size() - 1;
+		for(var i = 1; i <= len; ++i )
+		{
+			if( $("#booklist tr").eq(i).find("td").eq(6).text() == 'done' )
+			{
+				$("#alert_error").slideDown();
+				setTimeout(function(){$("#alert_error").fadeOut(5000);},2000);
+				return;
+			}
+
+		}
 		for(var i = 1; i <= len; ++i )
 		{
 			// if( document.querySelectorAll("#booklist tr")[i].querySelectorAll("td")[1].querySelector("input").checked )
@@ -90,7 +114,8 @@ var Home = function(){
 				data:{"order":$("#submitorder").attr("value")},
 				success:function(msg){
 					console.log(msg);
-					window.location.reload();
+					$("#alert_success").show();
+					setTimeout(function(){window.location.reload();},1000);
 					}
 				})
 				

@@ -39,10 +39,18 @@
 			<td><a href="/home/bookorder/?order={{order.id}}">{{order.id}}</a></td>
 			<td>{{order.date}}</td>
 			<td>{%ifequal order.type 'In'%}-{%else%}+{%endifequal%}{{order.info}}</td>
-			<td>{{order.type}}</td>
+			<td>{% ifequal order.type 'In' %}进货{% else %}出售{% endifequal%}</td>
 		</tr>
 
 		{% endfor%}
 </table>
+
+{% block toolbar%}
+<div class="toolbar">
+	<a href="#" class="ordertype s3d twitter middle" >In</a></li>
+	<a href="#" class="ordertype s3d flickr middle">Out</a></li>
+</div>
+{% endblock%}
+
 
 {% endblock%}
