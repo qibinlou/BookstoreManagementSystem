@@ -18,7 +18,10 @@ class Publisher(models.Model):
 class Author(models.Model):
     name = models.CharField(max_length=50)
     email = models.EmailField(blank=True)
-    
+    city = models.CharField(max_length=60,blank=True)
+    state_province = models.CharField(max_length=30,blank=True)
+    country = models.CharField(max_length=50,blank=True)
+    website = models.URLField(blank=True)
     def __unicode__(self):
         return unicode(self.name)
 
@@ -36,7 +39,9 @@ class Book(models.Model):
 
     def __unicode__(self):
         return unicode(self.title) 
-
+    def display_publication_date(self):
+        return str(self.publication_date)
+    display_publication_date.short_description = "publication date"
     def  display_authors(self):
         return ' / '.join([a.name for a in self.authors.all() ])
     display_authors.short_description = 'authors'
@@ -59,8 +64,17 @@ class Order(models.Model):
                 paid += item.total_price()
         return '$%.2f / $%.2f' %(pending, paid)
     total_price.short_description = 'pending / paid'
+    def turnover(self):
+        money = decimal.Decimal(0)
+        for item in BookOrder.objects.filter(order__id = self.id):
+            elif item.state == DONE:
+                money += item.total_price()
+        return money
     def __unicode__(self):
         return unicode(self.id)
+    def display_order_date(self):
+        return str(self.order_date).split('+')[0]
+    display_order_date.short_description = "order date"
 
 
 class BookOrder(models.Model):

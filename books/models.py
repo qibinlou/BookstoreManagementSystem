@@ -64,6 +64,12 @@ class Order(models.Model):
                 paid += item.total_price()
         return '$%.2f / $%.2f' %(pending, paid)
     total_price.short_description = 'pending / paid'
+    def turnover(self):
+        money = decimal.Decimal(0)
+        for item in BookOrder.objects.filter(order__id = self.id):
+            if item.state == DONE:
+                money += item.total_price()
+        return money
     def __unicode__(self):
         return unicode(self.id)
     def display_order_date(self):
