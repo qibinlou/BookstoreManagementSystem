@@ -15,6 +15,8 @@
     <script type="text/javascript" src="/static/js/jquery-1.9.1.js"></script>	
     <script type="text/javascript" src="/static/js/stupidtable.min.js"></script>
 
+    {% block extra_head %}{% endblock %}
+
     <script type="text/javascript" src="/static/js/home.js"></script>
      <script type="text/javascript" src="/static/js/bootstrap.js"></script>
 <!--    <script src="/static/js/elegant-press.js" type="text/javascript"></script> -->
@@ -22,17 +24,6 @@
         body {
         }
 
-        #footer {
-            background-color: rgba(25,120,120,1);
-            color: white;
-            position: fixed;
-            bottom: 0px;
-            min-height: 40px;
-            max-height: 100px;
-            vertical-align: center;
-            text-align: center;
-            /*display: none;*/
-        }
         table thead th{
         	background-color: rgb(45,85,145);
         }
@@ -84,7 +75,7 @@
 
 </head>
 <body>
-    <a href="https://github.com/qibinlou/BookstoreManagementSystem"><img style="position: absolute; top: 0; right: 0; border: 0;" src="/static/images/github.png" alt="Fork me on GitHub">
+    <a href="https://github.com/qibinlou/BookstoreManagementSystem" target="blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="/static/images/github.png" alt="Fork me on GitHub">
     </a>
     <header id="header">
         <h1><a href="/">书城管理系统</a></h1>
@@ -149,59 +140,69 @@
                 </div>
             </div>
         </div>
-        <div class="callout">
-            <div class="calloutcontainer">
-                <div class="container_12">
-                    <div class="grid">
-                        <article class="footbox">
-                            <h2>From The Blog</h2>
-                            <ul>
-                                <li><a href="#">Lorem Ipsum Dolor</a><br>
-                                    Orciint erdum condimen terdum nulla mcorper elit nam curabitur...
-                                </li>
-                                <li><a href="#">Praesent Et Eros</a><br>
-                                    Orciint erdum condimen terdum nulla mcorper elit nam curabitur...
-                                </li>
-                                <li><a href="#">Suspendisse In Neque</a><br>
-                                    Orciint erdum condimen terdum nulla mcorper elit nam curabitur...
-                                </li>
-                            </ul>
-                        </article>
-                        <article class="footbox last">
-                            <h2>We Are Social!</h2>
-                            <div id="social">
-                                <a href="http://twitter.com/priteshgupta" class="s3d twitter">Twitter <span class="icons twitter"></span></a>
-                                <a href="http://www.facebook.com/priteshgupta" class="s3d facebook">Facebook <span class="icons facebook"></span></a>
-                                <a href="http://forrst.com/people/priteshgupta" class="s3d forrst">Forrst <span class="icons forrst"></span></a>
-                                <a href="http://www.flickr.com/photos/priteshgupta" class="s3d flickr">Flickr <span class="icons flickr"></span></a>
-                                <a href="#" class="s3d designmoo">Designmoo <span class="icons designmoo"></span></a>
-                            </div>
-                        </article>
-                        <article class="latestgallery">
-                            <h2>Latest Work</h2>
-                            <ul>
-                                <li><a href="/static/images/thumb.jpg" data-gal="prettyPhoto[gallery]" title="Title">
-                                    <img src="/static/images/thumb.jpg" alt="" width="150" height="95"></a></li>
-                                <li><a href="/static/images/thumb2.jpg" data-gal="prettyPhoto[gallery]" title="Title">
-                                    <img src="/static/images/thumb2.jpg" alt="" width="150" height="95"></a></li>
-                                <li><a href="/static/images/thumb3.jpg" data-gal="prettyPhoto[gallery]" title="Title">
-                                    <img src="/static/images/thumb3.jpg" alt="" width="150" height="95"></a></li>
-                                <li><a href="/static/images/thumb4.jpg" data-gal="prettyPhoto[gallery]" title="Title">
-                                    <img src="/static/images/thumb4.jpg" alt="" width="150" height="95"></a></li>
-                            </ul>
-                        </article>
 
-                        <div class="clear"></div>
+        <!-- {% block footbox %} -->
+            <div class="callout">
+                <div class="calloutcontainer">
+                    <div class="container_12">
+                        <div class="grid">
+
+                        {% block footbox_left%}
+                            <article class="footbox">
+                                <h2>Techniques We Have Applied</h2>
+                                <ul>
+                                    <li><a href="https://www.djangoproject.com">Python Django</a><br>Django: The Web framework for perfectionists with deadlines
+                                    </li>
+                                    <li><a href="http://twitter.github.io/bootstrap/">Bootstrap</a><br>Sleek, intuitive, and powerful front-end framework for faster and easier web development.
+                                    </li>
+                                    <li><a href="#">HTML5+CSS3+jQuery</a><br>The advanced web developing tools
+                                    </li>
+                                </ul>
+                            </article>
+                        {% endblock%}
+
+                        {% block footbox_middle %}
+                            <article class="footbox last">
+                                <h2>We Are Social!</h2>
+                                <div id="social">
+                                    <a href="http://twitter.com/priteshgupta" class="s3d twitter">Twitter <span class="icons twitter"></span></a>
+                                    <a href="http://www.facebook.com/priteshgupta" class="s3d facebook">Facebook <span class="icons facebook"></span></a>
+                                    <a href="http://forrst.com/people/priteshgupta" class="s3d forrst">Forrst <span class="icons forrst"></span></a>
+                                    <a href="http://www.flickr.com/photos/priteshgupta" class="s3d flickr">Flickr <span class="icons flickr"></span></a>
+                                    <a href="#" class="s3d designmoo">Designmoo <span class="icons designmoo"></span></a>
+                                </div>
+                            </article>
+                        {% endblock%}
+
+                        {% block footbox_right %}
+                            <article class="latestgallery">
+                                <h2>Latest Work</h2>
+                                <ul>
+                                    <li><a href="/static/images/thumb.jpg" data-gal="prettyPhoto[gallery]" title="Title">
+                                        <img src="/static/images/thumb.jpg" alt="" width="150" height="95"></a></li>
+                                    <li><a href="/static/images/thumb2.jpg" data-gal="prettyPhoto[gallery]" title="Title">
+                                        <img src="/static/images/thumb2.jpg" alt="" width="150" height="95"></a></li>
+                                    <li><a href="/static/images/thumb3.jpg" data-gal="prettyPhoto[gallery]" title="Title">
+                                        <img src="/static/images/thumb3.jpg" alt="" width="150" height="95"></a></li>
+                                    <li><a href="/static/images/thumb4.jpg" data-gal="prettyPhoto[gallery]" title="Title">
+                                        <img src="/static/images/thumb4.jpg" alt="" width="150" height="95"></a></li>
+                                </ul>
+                            </article>
+                        {% endblock %}
+
+                            <div class="clear"></div>
+                        </div>
+                        <div class="calloutoverlay"></div>
+                        <div class="calloutoverlaybottom"></div>
                     </div>
-                    <div class="calloutoverlay"></div>
-                    <div class="calloutoverlaybottom"></div>
                 </div>
             </div>
-        </div>
+        <!-- {% endblock %} -->
 
         <footer id="footer">
-                <p class="tagline_left">Copyright &copy; 2011 - All Rights Reserved - <a href="#">Domain Name</a></p>
+                <p class="tagline_left">Copyright &copy; 2013 - All Rights Reserved <a href="#">娄琦彬&牙河清</a></p>
                 <p class="tagline_right">Design by <a href="http://www.priteshgupta.com/" title="Pritesh Gupta" target="_blank">PriteshGupta.com</a></p>
+                <br/><br/>
             </footer>
     </div>
 </body>

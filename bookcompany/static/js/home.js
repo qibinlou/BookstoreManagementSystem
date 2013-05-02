@@ -1,3 +1,31 @@
+$(document).ready(function() {
+	try{
+        if(!$('#myCanvas1').tagcanvas({
+          textColour: '#DC143C',
+          outlineColour: 'white',
+          reverse: true,
+          depth: 0.8,
+          maxSpeed: 0.1
+        },'tags1')) {
+          // something went wrong, hide the canvas container
+          $('#myCanvasContainer').hide();
+        }
+
+        if(!$('#myCanvas2').tagcanvas({
+          textColour: 'teal',
+          outlineColour: 'white',
+          reverse: true,
+          depth: 0.8,
+          maxSpeed: 0.1
+        },'tags2')) {
+          // something went wrong, hide the canvas container
+          $('#myCanvasContainer').hide();
+        }
+    }catch(e){
+    	console.log(e);
+    }
+});
+
 
 
 $(document).ready(function(){

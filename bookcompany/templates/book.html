@@ -1,7 +1,22 @@
 {% extends "base.html" %}
 
+{% block extra_head %}
+	<script type="text/javascript" src="/static/js/jquery.tagcanvas.min.js"></script>
+{% endblock %}
+
 
 {% block content%}
+
+
+	<div id="myCanvasContainer" class="toolbar">
+	  
+
+      
+  
+
+
+
+
 <table border="1" class="table table-bordered table-hover" id="booklist" style="border:1px solid black;">
 	<thead>
 		<tr class="info">
@@ -114,3 +129,49 @@
 
 
 {% endblock%}
+
+
+<!-- {{block.super}} -->
+
+{% block footbox_left %}
+	<!-- {{block.super}} -->
+<article class="footbox">
+	<h2>Book Cloud</h2>
+	<canvas width="400" height="300" id="myCanvas1" style="">
+        <p>Anything in here will be replaced on browsers that support the canvas element</p>
+    </canvas>
+
+    <div id="tags1" style="display: none;">
+      <ul>
+     	{% for book in books %}
+     	<li><a href="/home/book/?book={{book.id}}">{{book.title}}</a></li>
+     	{% endfor%}
+
+      </ul>
+	</div>
+</article>
+{% endblock %}
+
+{% block footbox_middle %}
+{% endblock %}
+
+
+{% block footbox_right %}
+<article class="latestgallery">
+	  <h2>Author Cloud</h2>
+	  <canvas width="300" height="300" id="myCanvas2" style="">
+        <p>Anything in here will be replaced on browsers that support the canvas element</p>
+      </canvas>
+   
+    
+	<div id="tags2" style="display: none;">
+      <ul>
+     	{% for book in books %}
+     	<li><a href="/home/book/?book={{book.id}}">{{book.authors}}</a></li>
+     	{% endfor%}
+
+      </ul>
+	</div>
+</article>
+{% endblock %}
+
