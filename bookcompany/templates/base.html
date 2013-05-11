@@ -38,6 +38,9 @@
         	background-color: #eee;
             height: 16px;
         }
+
+
+
         .nav li a:hover{
         	background-color: silver;
         }
@@ -69,6 +72,14 @@
             font-size: 70px;
             -webkit-tranzform:scale(1.1);
         }
+        label{
+            display: inline;
+        }
+        a.myuser{
+            
+            font-style: italic;
+
+        }
 
     </style>
 
@@ -93,7 +104,7 @@
                     </p>
                 </div>
                 <div class="tagline_right">
-                    <form action="#" method="post">
+                    <form action="#" method="get">
                         <fieldset>
                             <legend>Site Search</legend>
                             <input type="text" value="Search Our Website&hellip;" onfocus="if (this.value == 'Search Our Website&hellip;') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Search Our Website&hellip;';}">
@@ -114,7 +125,18 @@
                         <li><a href="/home/order/" id="orders" value="{{order_id}}">Order</a></li>
                         <!-- <li><a href="/home/bookorder">Book Order</a></li> -->
                         <li><a href="#">About</a></li>
-                        <li><a href="/admin/">Admin</a></li>
+                        
+                        {% if user %}
+                        <li><a href="/admin/" class="myuser"><strong>{{ user }}</strong></a>
+                            <ul>
+                                <!-- <li><a href="">Setting</a></li> -->
+                                <li><a href="/home/logout" id="logout">Logout</a></li>
+                            </ul>
+                        </li>
+                        {%else%}
+                        <li><a href="/admin/"><strong>Admin</strong></a></li>
+
+                        {% endif %}
                     </ul>
                 </nav>
                 <!-- <div class="clear"></div> -->
@@ -163,13 +185,13 @@
 
                         {% block footbox_middle %}
                             <article class="footbox last">
-                                <h2>We Are Social!</h2>
+                                <h2>Download&Thanks</h2>
                                 <div id="social">
-                                    <a href="http://twitter.com/priteshgupta" class="s3d twitter">Twitter <span class="icons twitter"></span></a>
-                                    <a href="http://www.facebook.com/priteshgupta" class="s3d facebook">Facebook <span class="icons facebook"></span></a>
-                                    <a href="http://forrst.com/people/priteshgupta" class="s3d forrst">Forrst <span class="icons forrst"></span></a>
-                                    <a href="http://www.flickr.com/photos/priteshgupta" class="s3d flickr">Flickr <span class="icons flickr"></span></a>
-                                    <a href="#" class="s3d designmoo">Designmoo <span class="icons designmoo"></span></a>
+                                    <a href="http://twitter.com/priteshgupta" class="s3d twitter">Source Code<span class="icons twitter"></span></a>
+                                  <!--   <a href="http://www.facebook.com/priteshgupta" class="s3d facebook">Report<span class="icons facebook"></span></a> -->
+                                    <a href="http://forrst.com/people/priteshgupta" class="s3d forrst">Report<span class="icons forrst"></span></a>
+                                   <!--  <a href="http://www.flickr.com/photos/priteshgupta" class="s3d flickr">Flickr <span class="icons flickr"></span></a> -->
+                                    <a href="#" class="s3d designmoo">Dev Tools<span class="icons designmoo"></span></a>
                                 </div>
                             </article>
                         {% endblock%}

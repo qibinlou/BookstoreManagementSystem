@@ -20,7 +20,7 @@
 			<th>{% ifequal order_type '0' %}进货{%else%}出售{%endifequal%}</th>
 			<th>Number</th>
 			<th data-sort="string">Title</th>
-			<th data-sort="float">Price</th>
+			<th data-sort="float" >Price{% ifequal order_type '0' %}(editable){% endifequal %}</th>
 			<th data-sort="int">Stock</th>
 			<th data-sort="string">State</th>
 			
@@ -45,19 +45,27 @@
                  </div>
 			</td>
 			<td>{{book.title}}</td>
-			<td>{{book.price}}</td>
+			<td  {% ifequal order_type '0' %} contenteditable="true" class="modifyprice"{% endifequal%} >{{book.price}}</td>
 			<td class="total_numbers">{{book.numbers}}</td>
 			<td>{{book.state}}</td>
 		</tr>
 
 		{% endfor%}
 </table>
+
+
 {% block toolbar%}
+{% ifequal order_state '0' %}
 <div class="toolbar">
 	<a href="#" class="s3d twitter forrst middle" id="addbooktoorder" value="{{order_id}}" >Add Book</a>
 
 	<a href="#" class="s3d twitter middle" id="updateorder" value="{{order_id}}" >Update Order</a>
 	<a href="#" class="s3d twitter designmoo middle" id="submitorder" value="{{order_id}}">Submit Order</a>
+	<button style="display:none" id="order_type" value={{order_type}}>order_type</button>
 </div>
+{% endifequal %}
 {% endblock%}
+
+
+
 {% endblock%}

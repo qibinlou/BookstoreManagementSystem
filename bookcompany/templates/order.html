@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block extra_head %}
+{% endblock%}
+
+
 {% block header%}
 	
 	<a href="/home/book/" class="span2 btn btn-info" id="books">Books</a>
@@ -23,8 +27,8 @@
 
 <div class="toolbar">
 	<form>
-		<input type="date" name="start_time" />
-		<input type="date" name="end_time"	/>
+		<input  type="date" name="start_time" placeholder="1949-10-1" pattern="^((?!0000)[0-9]{4}-((0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-8])|(0[13-9]|1[0-2])-(29|30)|(0[13578]|1[02])-31)|([0-9]{2}(0[48]|[2468][048]|[13579][26])|(0[48]|[2468][048]|[13579][26])00)-02-29)$"/>
+		<input type="date" name="end_time" placeholder="1949-10-1" pattern="^((?!0000)[0-9]{4}-((0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-8])|(0[13-9]|1[0-2])-(29|30)|(0[13578]|1[02])-31)|([0-9]{2}(0[48]|[2468][048]|[13579][26])|(0[48]|[2468][048]|[13579][26])00)-02-29)$"/>
 		<button type="submit" class="btn btn-primary" style="margin-left:25px;">Submit</button>
 	</form>
 </div>
@@ -35,18 +39,23 @@
 			<th data-sort="date">Date</th>
 			<th data-sort="float">Account</th>
 			<th data-sort="string">OrderType</th>
+			<th data-sort="string">Operator</th>
 			
 		</tr>
 	</thead>
 		
 		{% for order in orders %}
-		<tr  class="{% ifequal order.type 'In' %}info
+		<tr  class="{% ifnotequal order.info '0.00' %}error
+					{% else %}
+					{% ifequal order.type 'In' %}info
 					{% else %}warning
-					{% endifequal%}">
+					{% endifequal%}
+					{% endifnotequal%}">
 			<td><a href="/home/bookorder/?order={{order.id}}">{{order.id}}</a></td>
 			<td>{{order.date}}</td>
 			<td>{%ifequal order.type 'In'%}-{%else%}+{%endifequal%}{{order.info}}</td>
 			<td>{% ifequal order.type 'In' %}进货{% else %}出售{% endifequal%}</td>
+			<td>{{ order.operator }}</td>
 		</tr>
 
 		{% endfor%}
@@ -64,6 +73,7 @@
 	<a href="#" class="ordertype s3d flickr middle" value='Out'>出售</a></li>
 </div>
 {% endblock%}
+
 
 
 {% endblock%}

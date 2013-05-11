@@ -58,6 +58,7 @@ class Order(models.Model):
     ORDER_CHOICES = ((BUY,'buy'),(SELL,'sell'))
     order_date = models.DateTimeField(default=datetime.datetime.now())
     order_type = models.CharField(max_length=1, choices=ORDER_CHOICES)
+    operator = models.CharField(max_length=20,default='Admin')
     def total_price(self):
         paid = pending = decimal.Decimal(0)
         for item in BookOrder.objects.filter(order__id = self.id):

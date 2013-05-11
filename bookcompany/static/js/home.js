@@ -81,6 +81,8 @@ var Home = function(){
 			book.id = Number($("#booklist tr").eq(i).find("td").eq(0).text());
 			book.numbers = Number($("#booklist tr").eq(i).find("td").eq(2).find("input").attr("value"));
 			book.state = document.querySelectorAll("#booklist tr")[i].querySelectorAll("td")[1].querySelector("input").checked;
+			if (document.querySelector("#order_type").value == "0")
+				book.price = Number($("#booklist tr").eq(i).find("td").eq(4).text());
 			bookorder.push(book);
 			// console.log(book);
 		
@@ -123,6 +125,8 @@ var Home = function(){
 			book.id = Number($("#booklist tr").eq(i).find("td").eq(0).text());
 			book.numbers = Number($("#booklist tr").eq(i).find("td").eq(2).find("input").attr("value"));
 			book.state = document.querySelectorAll("#booklist tr")[i].querySelectorAll("td")[1].querySelector("input").checked;
+			if (document.querySelector("#order_type").value == "0")
+				book.price = Number($("#booklist tr").eq(i).find("td").eq(4).text());
 			bookorder.push(book);
 			// console.log(book);
 		
@@ -193,6 +197,28 @@ var Home = function(){
 
 		}
 		window.location.href="/home/bookorder/add/?order="+$(this).attr("value");
+	})
+
+	var bgcolor,initvalue;
+	$(".modifyprice").mouseover(function(){
+		bgcolor	= $(this).css("background-color");
+		$(this).css("background-color","rgba(80,180,80,0.5)");
+	})
+	$(".modifyprice").mouseout(function(){
+		$(this).css("background-color",bgcolor);
+	})
+	$(".modifyprice").focus(function(){
+		initvalue = $(this).text();
+	})
+	$(".modifyprice").blur(function(){
+		var  newvalue = $(this).text();
+		var patten = new RegExp(/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/); 
+		if ( patten.test(newvalue) == false )
+		{
+			alert("ILLEGAL NUMBER!");
+			$(this).text(initvalue);
+		}
+			
 	})
 
 }();

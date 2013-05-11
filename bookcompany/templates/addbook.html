@@ -42,7 +42,7 @@
 		<tr  class="{% if book.number > 0 %}success
 					{% else %}info
 					{% endif%}">
-			<td><a href="#">{{book.id}}</a></td>
+			<td><a href="http://book.douban.com/isbn/{{book.isbn}}" target="_blank">{{book.id}}</a></td>
 			<td><input type="checkbox" {% ifequal book.checked True%}checked {% endifequal%} class="addbook">
 			</td>
 			<!-- <td>

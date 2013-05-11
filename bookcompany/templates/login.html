@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+{% if error %}
+    <!-- <p class="error">Sorry, that's not a valid username or password</p> -->
+    <div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong>Error!</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sorry, that's not a valid username or password</div>
+{% endif %}
+
+<div class="toolbar">
+  <form action="/home/login/" method="post" target="_self" >
+  	{% csrf_token %}
+    <label for="username">User name:</label>
+    <input type="text" name="username" value="" id="username" required>
+    <br/>
+    <label for="password">&nbsp;Password:</label>
+    <input type="password" name="password" value="" id="password" required>
+    <br/>
+    <input type="submit" value="login" class="btn btn-info"/>
+    <input type="hidden" name="next" value="{{ next|escape }}" />
+
+  </form>
+</div>
+<!-- 
+<div class="toolbar">
+<form class="" action="/home/login_view/" method="post" target="_self">
+	{% csrf_token %}
+  <div class="control-group">
+    <label class="control-label" for="inputname">Username</label>
+    <div class="controls">
+      <input type="text" id="inputname" placeholder="username" name="username">
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="inputPassword">Password</label>
+    <div class="controls">
+      <input type="password" id="inputPassword" placeholder="Password" name="password">
+    </div>
+  </div>
+
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn">Sign in</button>
+    </div>
+  </div>
+</form>
+</div> -->
+
+
+
+{% endblock%}

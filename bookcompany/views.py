@@ -1,28 +1,58 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect ,HttpResponse
+from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 from  books.models import *
 from django.db.models import Q
 import datetime
+from django.core.context_processors  import *
+import django.contrib.auth.context_processors
+from django.template import RequestContext
 import json
+
 
 
 def homepage(request):
     head = 'Book Company Management Website'
     title = 'HomePage'
+    user = request.user.username
     return render_to_response('base.html', locals())
 
 
+def login(request):
+    c = {}
+    c.update(csrf(request))
+    username = request.POST.get('username', '')
+    password = request.POST.get('password', '')
+    user = auth.authenticate(username=username, password=password)
+    if user is not None and user.is_active:
+        # Correct password, and the user is marked "active"
+        auth.login(request, user)
+        # Redirect to a success page
+        return  HttpResponseRedirect("/home/",)
+    else:
+        # Show an error page
+        return render_to_response('login.html',{"error":True,"csrf_token":c['csrf_token']})
+
+def logout(request):
+    auth.logout(request)
+    # Redirect to a success page.
+    return HttpResponseRedirect("/home/")
+
+   
 def home(request):
     
     # fixed vars #
-    if not request.user.is_authenticated():
-        return HttpResponseRedirect("/admin/")
     title = 'Welome to Excurtion'
+    user = request.user.username
     return render_to_response('base.html',locals())
 
 
+
+@login_required(login_url="/home/login/")
 def  order(request):
     title = "Order"
+    user = request.user.username
     if 'type' in request.GET and request.GET['type']:
         order_type = request.GET['type']
         if order_type == "In":
@@ -32,6 +62,7 @@ def  order(request):
         p = Order()
         p.order_date = datetime.datetime.now()
         p.order_type = state
+        p.operator = user
         p.save()
 
     total_income = total_outgo = decimal.Decimal(0)
@@ -52,7 +83,8 @@ def  order(request):
             order["type"] = "In"
         else:
             order["type"] = "Out"
-        order["info"] = item.total_price().split('/')[-1].split('$')[-1    ]
+        order["info"] = item.total_price().split('/')[-1].split('$')[-1 ]
+        order['operator'] = item.operator
         orders.append(order)
 
     for order in Orderqueryset:
@@ -62,12 +94,21 @@ def  order(request):
             total_income += order.turnover()
     return render_to_response('order.html', locals())
 
+@login_required(login_url="/home/login/")
 def  bookorder(request):
     title = "Book Order"
+    user = request.user.username
+
     if 'order' in request.GET and request.GET['order']:
         order_id = request.GET['order']
         order_type = Order.objects.get(id=order_id).order_type
-        # print "Order Type",order_type
+        order_state = '0'
+        for item in BookOrder.objects.filter(order__id=order_id):
+            if  item.state == '1':
+                order_state = '1'
+                break
+
+        print "Order Type",order_state
     else:
         return HttpResponse("Order doesn't exist!")
     books = []
@@ -83,10 +124,14 @@ def  bookorder(request):
         books.append(book)
     return render_to_response("bookorder.html",locals())
 
+
+@login_required(login_url="/home/login/")
 def  updateorder(request):
 
     if 'order' in request.GET and request.GET['order']:
         order = request.GET['order']
+        order_type = Order.objects.get(id=order).order_type
+        # print "updateorder",order,order_type
     else:
         return HttpResponse("Order doesn't exist!")
     if  'bookorder' in request.GET and request.GET['bookorder']:
@@ -112,6 +157,9 @@ def  updateorder(request):
                 else :
                     p.numbers = book['numbers']
                 
+                if order_type == '0':
+                    print "fuck you !!!!"
+                    p.price = book['price']
                 p.save()
         
         else:
@@ -126,6 +174,8 @@ def  updateorder(request):
 
     return HttpResponse("Update Success!")
 
+
+@login_required(login_url="/home/login/")
 def  submitorder(request):
     if 'order' in request.GET and request.GET['order']:
         order = request.GET['order']
@@ -146,8 +196,12 @@ def  submitorder(request):
         book.save()
     return HttpResponse("Submit Order Successfully!");
 
+
+@login_required(login_url="/home/login/")
 def  addbook(request):
     title = "Add Book"
+    user = request.user.username
+
     if 'order' in request.GET and request.GET['order']:
         order_id = request.GET['order']
         order_type = Order.objects.get(id=order_id).order_type
@@ -206,9 +260,12 @@ def  addbook(request):
     return render_to_response("addbook.html",locals())
 
 
+@login_required(login_url="/home/login/")
 def book(request):
 
     title = "Book"
+    user = request.user.username
+
     if  'isbn' in request.GET and request.GET['isbn']:
         if Book.objects.filter(isbn=request.GET['isbn']).count() == 0:
             authors = request.GET['authors']
@@ -253,8 +310,21 @@ def book(request):
 
     return render_to_response("book.html",locals())
 
+	
 
+@login_required(login_url="/home/login/")
 def account(request):
-    # t = loader.get_template('account.html')
-    pass
+    t = loader.get_template('account.html')
+    start_time = request.GET.get('start_time')
+#    start_time = datetime.datetime(2006, 11, 21, 16, 30)
+    end_time = request.GET.get('end_time')
+    total_income = total_outgo = decimal.Decimal(0)
+#    end_time = datetime.datetime.now()
+    print Order.objects.filter(order_date__gte=start_time, order_date__lte=end_time).count()
+    for order in Order.objects.filter(order_date__gte=start_time, order_date__lte=end_time):
+        if order.order_type == BUY:
+            total_outgo += order.turnover()
+        elif order.order_type == SELL:
+            total_income += order.turnover()
+    return render_to_response('account.html', locals())
 

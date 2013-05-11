@@ -2,6 +2,7 @@
 
 {% block extra_head %}
 	<script type="text/javascript" src="/static/js/jquery.tagcanvas.min.js"></script>
+
 {% endblock %}
 
 
@@ -11,11 +12,7 @@
 	<div id="myCanvasContainer" class="toolbar">
 	  
 
-      
-  
-
-
-
+     
 
 <table border="1" class="table table-bordered table-hover" id="booklist" style="border:1px solid black;">
 	<thead>
@@ -42,7 +39,7 @@
 						{% else %}warning
 						{% endif %}
 					{% endif%}">
-			<td><a href="#">{{book.id}}</a></td>
+			<td><a href="http://book.douban.com/isbn/{{book.isbn}}" target="_blank">{{book.id}}</a></td>
 			<td>{{book.isbn}}</td>
 			<td>{{book.title}}</td>
 			<td>{{book.authors}}</td>
@@ -66,7 +63,7 @@
 		  <div class="control-group">
 		  	<label class="control-label" for="isbn">ISBN</label>
 		  	<div class="controls">
-		  	<input type="text" class="input-small" name="isbn" placeholder="ISBN" 	required>
+		  	<input type="text" class="input-small" name="isbn" placeholder="ISBN" 	required pattern="^[0-9]*$">
 		  	</div>
 		  </div>
 
@@ -87,14 +84,14 @@
 		  <div class="control-group">
 		  	<label class="control-label" for="price">Price</label>
 		  	<div class="controls">
-		  	<input type="text" min="0" class="input-small" name="price" placeholder="Price" 	required>
+		  	<input type="text" min="0" class="input-small" name="price" placeholder="Price" 	required pattern = "^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$">
 		  	</div>
 		  </div>
 
 		  <div class="control-group">
 		  	<label class="control-label" for="numbers">Numbers</label>
 		  	<div class="controls">
-		  	<input type="number" min="0" class="input-small" name="numbers" placeholder="Numbers" 	required>
+		  	<input type="number" min="0" class="input-small" name="numbers" placeholder="Numbers" 	required pattern="^\d+$">
 		  	</div>
 		  </div>
 
@@ -108,7 +105,7 @@
 		  <div class="control-group">
 		  	<label class="control-label" for="pubdate">PubDate</label>
 		  	<div class="controls">
-		  	<input type="date" class="input-small" name="pubdate" placeholder="PubDate" 	required>
+		  	<input type="date" class="input-small" name="pubdate" placeholder="PubDate" required pattern="^(d{2}|d{4})-((0([1-9]{1}))|(1[1|2]))-(([0-2]([1-9]{1}))|(3[0|1]))$"> 
 		  	</div>
 		  </div>
 
