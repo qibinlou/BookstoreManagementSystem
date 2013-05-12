@@ -20,14 +20,14 @@
 			<th data-sort="int">ID</th>
 		<!-- 	<th>Buy</th>
 			<th>Number</th> -->
-			<th data-sort="string">ISBN</th>
-			<th data-sort="string">Title</th>
-			<th data-sort="string">Authors</th>
-			<th data-sort="float">Price</th>
-			<th data-sort="int">Stock</th>
-			<th data-sort="int">Sold</th>
-			<th data-sort="string">Publisher</th>
-			<th data-sort="date">Publication Date</th>
+			<th data-sort="string"><a href="#">ISBN</a></th>
+			<th data-sort="string"><a href="#">Title</a></th>
+			<th data-sort="string"><a href="#">Authors</a></th>
+			<th data-sort="float"><a href="#">Price</a></th>
+			<th data-sort="int"><a href="#">Stock</a></th>
+			<th data-sort="int"><a href="#">Sold</a></th>
+			<th data-sort="string"><a href="#">Publisher</a></th>
+			<th data-sort="date"><a href="#">Publication Date</a></th>
 			
 		</tr>
 	</thead>
@@ -52,6 +52,37 @@
 
 		{% endfor%}
 </table>
+
+<div class="pagination-block">
+
+  
+    <div class="pagination">
+      <ul>
+        
+          <!-- <li class="active"><a href="">1</a></li> 
+        
+          <li><a href="?p=1">2</a></li> 
+        
+          <li><a href="?p=2">3</a></li> 
+        
+          <li><a href="?p=3">4</a></li> 
+        
+          <li class="disabled"><a href="#" onclick="return false;">...</a></li>
+        
+          <li><a href="?p=130">131</a></li> 
+        
+          <li><a href="?p=131" class="end">132</a></li>  -->
+          {% autoescape off%}
+          {{paginations}}
+          {% endautoescape%}
+        
+      </ul>
+    </div>
+  
+
+  
+
+
 
 	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">

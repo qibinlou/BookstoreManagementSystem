@@ -38,26 +38,33 @@ var Home = function(){
 
 	$(".plus").click(function(){
 		// alert($(this).parent().find("input").attr("value") );
-		var number = $(this).parent().find("input").attr("value");
+		var number = $(this).parent().find("input")[0].value;
 		var numbers = $(this).parent().parent().parent().find(".total_numbers").html();
 		
 		number = Number(number);
 		numbers = Number(numbers);
 		if(number >= numbers) return;
-		$(this).parent().find("input").attr("value",number+1);
+		$(this).parent().find("input")[0].value = number + 1;
 	})
 
 
 	$(".minus").click(function(){
 		// alert($(this).parent().find("input").attr("value") );
-		var number = $(this).parent().find("input").attr("value");
+		var number = $(this).parent().find("input")[0].value;
 		number = Number(number);
 		if(number == 0 ) return;
-		$(this).parent().find("input").attr("value",number-1);
+		$(this).parent().find("input")[0].value = number - 1;
 	})
 
 	$("#neworder").click(function(){
 
+	})
+
+	$(".checknumber").blur(function(){
+		var  number = Number($(this)[0].value);
+		var maxnumber = Number($(this).parent().parent().parent().find(".total_numbers").html());
+		if(number >= maxnumber)
+			$(this)[0].value = maxnumber;
 	})
 
 	$("#updateorder").click(function(){
@@ -79,7 +86,7 @@ var Home = function(){
 			
 			var book = {};
 			book.id = Number($("#booklist tr").eq(i).find("td").eq(0).text());
-			book.numbers = Number($("#booklist tr").eq(i).find("td").eq(2).find("input").attr("value"));
+			book.numbers = Number($("#booklist tr").eq(i).find("td").eq(2).find("input")[0].value);
 			book.state = document.querySelectorAll("#booklist tr")[i].querySelectorAll("td")[1].querySelector("input").checked;
 			if (document.querySelector("#order_type").value == "0")
 				book.price = Number($("#booklist tr").eq(i).find("td").eq(4).text());
@@ -123,7 +130,7 @@ var Home = function(){
 			
 			var book = {};
 			book.id = Number($("#booklist tr").eq(i).find("td").eq(0).text());
-			book.numbers = Number($("#booklist tr").eq(i).find("td").eq(2).find("input").attr("value"));
+			book.numbers = Number($("#booklist tr").eq(i).find("td").eq(2).find("input")[0].value);
 			book.state = document.querySelectorAll("#booklist tr")[i].querySelectorAll("td")[1].querySelector("input").checked;
 			if (document.querySelector("#order_type").value == "0")
 				book.price = Number($("#booklist tr").eq(i).find("td").eq(4).text());
@@ -164,8 +171,11 @@ var Home = function(){
 			url:"/home/order/",
 			data:{"type":$(this).attr("value")},
 			success:function(msg){
-				console.log(msg);
-				window.location.reload();
+			
+				if (msg.length <= 5)
+					window.location.assign("/home/bookorder/?order="+msg);
+				else 
+					window.location.reload();
 			}
 		})
 	})

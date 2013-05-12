@@ -1,3 +1,4 @@
+#coding=utf-8
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect ,HttpResponse
 from django.contrib import auth
@@ -64,6 +65,7 @@ def  order(request):
         p.order_type = state
         p.operator = user
         p.save()
+        return HttpResponse(p.id)
 
     total_income = total_outgo = decimal.Decimal(0)
 
@@ -231,10 +233,20 @@ def  addbook(request):
         return HttpResponse("Order doesn't exist!")
     if 'keyword' in request.GET and request.GET['keyword']:
         keyword = request.GET['keyword']
-        booklist = Book.objects.filter(Q(isbn__icontains=keyword) |  Q(title__icontains=keyword)   )
+        booklist = Book.objects.filter(Q(isbn__icontains=keyword) |  Q(title__icontains=keyword) | Q(publisher__name__icontains=keyword) | Q(authors__name__icontains=keyword) )
     else:
         booklist = Book.objects.all()
 
+
+    erro = None
+    # print booklist.count()
+    if booklist.count() >  100 or booklist.count() == 0:
+        if booklist.count() != 0:
+            error = "The Resultset is too large to fetch! Please be more accurate!"
+        else:
+            error = "There is no such book! Please retry!"
+        print error
+        return render_to_response("addbook.html",locals())
     books = []
     for book in booklist:
         item = {}
@@ -262,6 +274,7 @@ def  addbook(request):
 
 @login_required(login_url="/home/login/")
 def book(request):
+    from math import ceil
 
     title = "Book"
     user = request.user.username
@@ -290,8 +303,41 @@ def book(request):
             b.authors = a
             b.publisher = p
             b.save()
-        
-    booklist = Book.objects.order_by("stock","id")
+    
+    pagelength = 20
+    page = 1
+    bookcount = Book.objects.count()
+    pages = int(ceil(bookcount/pagelength)) 
+    if 'p' in request.GET and request.GET['p']:
+        page = int(request.GET['p'])
+    paginations = """
+    <div class='pagination-block'>
+        <div class='pagination'>
+            <ul>"""
+    for i in range(8,0,-1):
+        if page-i > 0:
+            paginations += "<li><a href='?p=%d'>%d</a></li>"%(page-i,page-i,)
+    paginations += "<li class='active'><a href='?p=%d'>%d</a></li>"%(page,page)
+
+    for i in range(1,8):
+        if page+i < pages:
+            paginations += "<li><a href='?p=%d'>%d</a></li>"%(page+i,page+i,)
+            
+    paginations += """
+    </ul>
+        </div>
+        <div class="pagination-info muted">
+           %d - %d
+            of total %d
+            books
+    
+        </div>
+    </div>
+        """%((page-1)*pagelength+1,page*pagelength,bookcount)
+    
+
+    booklist = Book.objects.filter(id__gt=(page-1)*pagelength,id__lte=page*pagelength)
+    # booklist = Book.objects.order_by("stock","id")
     books = []
     for book in booklist:
         item = {}
@@ -327,4 +373,111 @@ def account(request):
         elif order.order_type == SELL:
             total_income += order.turnover()
     return render_to_response('account.html', locals())
+
+
+
+
+
+
+
+
+
+# importbooks
+
+def importbooks(request):
+    from django.core.files import File
+    import os
+    import urllib
+    import urllib2
+    from os.path import *
+    from random import randint
+
+    
+
+    fp = file(os.path.join(os.path.dirname(__file__),"static/files/booklist.txt"))
+    # print os.path.join(os.path.dirname(__file__),"/static/files/booklist.txt")
+    myfile = File(fp)
+    # query_args = {'alt':'json'}
+    count = 0
+    for isbn in myfile:
+        
+        # count += 1
+        # if count > 10:
+        #     break
+        print "isbn: ",isbn
+        try:
+            url = "https://api.douban.com/v2/book/isbn/%s"%(str(isbn).strip())
+            # print url
+            response = urllib2.urlopen(url)
+
+            data = json.loads(response.read())
+            title = data['title']
+            publisher = data['publisher']
+            author = data['author'][0]
+            price = float(data['price'][0:-2])
+            pubdate = data['pubdate']
+            if title and publisher and author and price and pubdate:
+                
+                stock = randint(0,100)
+                if Publisher.objects.filter(name=publisher).count() == 0:
+                    pass
+
+                if Author.objects.filter(name=author).count() == 0:
+                    a = Author(name=author)
+                    a.save()
+                if Publisher.objects.filter(name=publisher).count() == 0:
+                    p = Publisher(name=publisher)
+                    p.save()
+                a = Author.objects.filter(name=author)
+                p = Publisher.objects.get(name=publisher)
+                b = Book()
+                b.isbn = isbn
+                b.title = title
+                b.price = price
+                b.publication_date = pubdate+"-10"
+                b.stock = stock
+                
+                b.publisher = p
+                b.save()
+                b.authors  = a
+                b.save()
+            else:
+                continue
+            
+
+            print title,publisher,author,price,pubdate,stock
+        except Exception, e:
+            print e
+        else:
+            pass
+        finally:
+            pass
+        url = "http://api.douban.com/book/subject/isbn/%s/?alt=json"%(str(isbn).strip())
+        
+    
+    myfile.close()
+    fp.close()
+
+    
+    # a = Author.objects.filter(name=u'王杏元')
+    # p = Publisher.objects.get(name=u'中共党史出版社')
+    # b = Book()
+    # b.isbn = "12121"
+    # b.title = "232"
+    # b.price = 23.33
+    # b.publication_date = "2013-5-12"
+    # b.stock = 12
+    # b.author = a
+    # b.publisher = p
+    # b.save()
+        
+
+
+    print "File Closed!"
+    # print "os.path:  ",os.path
+    # print "os.path.dirname:  ",os.path.dirname(__file__)
+    # print "os.path.abspath:  ",os.path.abspath(__file__)
+    # print "os.path.join: ",os.path.join(os.path.dirname(__file__),"booklist.txt")
+    return HttpResponse("Fuck you!")
+
 

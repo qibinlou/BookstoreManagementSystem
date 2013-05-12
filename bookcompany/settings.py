@@ -1,8 +1,13 @@
+#coding=utf-8
 DEFAULT_CHARSET='utf-8'
 # Django settings for bookcompany project.
 import os.path
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+
+SUIT_CONFIG = {
+    'ADMIN_NAME': "书城图书管理系统",
+}
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -137,6 +142,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
+    'suit',
     'django.contrib.admin',
     'books',
     'adminproperty',

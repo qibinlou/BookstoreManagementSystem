@@ -13,6 +13,15 @@
 
 {% block content%}
 
+
+{% if error %}
+<div class="alert alert-error" id="alert_error" style="">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong >Error!</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{error}}
+</div>
+{% endif %}
+
+
 <form class="form-search" method="get" action="/home/bookorder/add/" style="display:inline-block;margin:0 50%; text-align:center;">
   		<div class="input-append span2">
   			<input type="text" name="order" style="visibility:hidden;positon:absolute; display:none" name="order" value="{{order_id}}">
@@ -24,16 +33,16 @@
 <table border="1" class="table table-bordered table-hover" id="booklist" style="border:1px solid black;">
 	<thead>
 		<tr class="info">
-			<th data-sort="int">ID</th>
+			<th data-sort="int"><a href="#">ID</a></th>
 			<th>{% ifequal order_type '0' %}进货{%else%}出售{%endifequal%}</th>
 			<!-- <th>Number</th> -->
-			<th data-sort="string">ISBN</th>
-			<th data-sort="string">Title</th>
-			<th data-sort="string">Authors</th>
-			<th data-sort="float">Price</th>
-			<th data-sort="int">Stock</th>
-			<th data-sort="string">publisher</th>
-			<th data-sort="date">publication_date</th>
+			<th data-sort="string"><a href="#">ISBN</a></th>
+			<th data-sort="string"><a href="#">Title</a></th>
+			<th data-sort="string"><a href="#">Authors</a></th>
+			<th data-sort="float"><a href="#">Price</a></th>
+			<th data-sort="int"><a href="#">Stock</a></th>
+			<th data-sort="string"><a href="#">Publisher</a></th>
+			<th data-sort="date"><a href="#">Pubdate</a></th>
 			
 		</tr>
 	</thead>
